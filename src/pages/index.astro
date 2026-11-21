@@ -1,0 +1,145 @@
+---
+import Base from '../layouts/Base.astro';
+import BeforeAfter from '../components/BeforeAfter.astro';
+import ProjectMap from '../components/ProjectMap.astro';
+import Process from '../components/Process.astro';
+import Testimonials from '../components/Testimonials.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import CTA from '../components/CTA.astro';
+import { biz, site, mainServices, projectById, beforeAfterPair, pagedProjects, byDateDesc, telHref } from '../lib/data.js';
+
+const hero = { lg: '/images/projects/main-floor-white-oak-2025/13-after-lg.webp', alt: mainServices.find((s) => s.id === 'whole-home').hero_images[0].alt };
+const featured = projectById['main-floor-full-gut-custom-kitchen-2024'] ?? projectById['brampton-basement-2018'];
+const pair = beforeAfterPair(featured);
+const recent = [...pagedProjects].sort(byDateDesc).filter((p) => p.has_before_after).slice(0, 3);
+const svcCards = mainServices.map((s) => ({ ...s, img: s.hero_images[0] }));
+---
+<Base
+  title="General Contractor in Etobicoke & West Toronto | Muddy York Contracting"
+  description="Clean, honest and reliable renovation contractors in Etobicoke. Basements, kitchens, bathrooms, decks and full main floors across West Toronto, Mississauga and Oakville. Free consultations."
+  ogImage={hero.lg}
+>
+  <section class="hero">
+    <img class="hero__img" src={hero.lg} alt={hero.alt} width="1600" height="1200" fetchpriority="high" />
+    <div class="wrap">
+      <div class="hero__inner">
+        <span class="eyebrow">General contractors · Etobicoke · {biz.years_in_business.display}</span>
+        <h1>Clean, honest renovations in Etobicoke &amp; the west end</h1>
+        <p class="lede">Basements, kitchens, bathrooms and full main floors, built by a small crew that cleans up every day and tells you the unknowns up front.</p>
+        <div class="btn-row">
+          <a class="btn btn--red" href="/contact/">Book a free consultation</a>
+          <a class="btn btn--ghost" href="/projects/">See our work on the map</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust">
+    <div class="wrap trust__inner">
+      <div><strong>{biz.years_in_business.display}</strong><span>in business</span></div>
+      <div><strong>Free</strong><span>consultations</span></div>
+      <div><strong>Detailed</strong><span>quotes: knowns, unknowns, timeline</span></div>
+      <div><strong>1-week</strong><span>follow-up visit</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="eyebrow">Services</span><h2>What we build</h2></div>
+        <a class="link-arrow" href="/contact/">Tell us about your project</a>
+      </div>
+      <div class="svc-grid">
+        {svcCards.map((s) => (
+          <a class="svc" href={s.slug}>
+            <img src={s.img.lg.replace('-lg.', '-sm.')} alt={s.img.alt} width="720" height="540" loading="lazy" />
+            <div class="svc__body">
+              <h3>{s.name}</h3>
+              <p>{s.summary}</p>
+              <span class="link-arrow">Learn more</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {pair && (
+    <section class="section section--dark">
+      <div class="wrap split split--wide-left">
+        <BeforeAfter before={pair.before} after={pair.after} />
+        <div>
+          <span class="eyebrow">Before &amp; after</span>
+          <h2>{featured.title}</h2>
+          {featured.homeowner_goal && <p class="lede">What they wanted: {featured.homeowner_goal.toLowerCase()}.</p>}
+          <p>Drag the slider to see the difference. Every project on this site is our own work, photographed on the job.</p>
+          <a class="btn btn--ghost" href={`/projects/${featured.id}/`}>See the full project</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow">Local proof</span>
+          <h2>Work in your neighbourhood</h2>
+          <p class="lede" style="margin:0">Click a pin to see before, during and after photos from that area.</p>
+        </div>
+        <a class="link-arrow" href="/projects/">Full project map</a>
+      </div>
+      <ProjectMap chips={false} height="460px" id="home-map" />
+    </div>
+  </section>
+
+  <Process dark />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="eyebrow">Recent work</span><h2>Recent before &amp; afters</h2></div>
+        <a class="link-arrow" href="/projects/">All projects</a>
+      </div>
+      <div class="grid grid--3">{recent.map((p) => <ProjectCard p={p} />)}</div>
+    </div>
+  </section>
+
+  <section class="section section--grey">
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">Why Muddy York</span>
+        <h2>Clean sites. Clear quotes. No driveway warranty.</h2>
+      </div>
+      <ul class="checks">
+        <li>Job site tidied, tools put away and trash removed at the end of every workday.</li>
+        <li>Detailed quotes that spell out the knowns, the unknowns, the timeline and the services, with tiered pricing options.</li>
+        <li>A follow-up visit one week after we finish to take care of anything on your list.</li>
+        <li>Not a design/build firm, so no design/build fees. We’ll connect you with architects, structural engineers or designers when you need them.</li>
+      </ul>
+    </div>
+  </section>
+
+  <Testimonials />
+
+  <CTA />
+</Base>
+
+<style>
+  .trust { background: var(--grey-50); border-bottom: 1px solid var(--grey-100); }
+  .trust__inner { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 0; }
+  .trust__inner > div { padding: 22px 18px; border-left: 1px solid var(--grey-200); display: flex; flex-direction: column; }
+  .trust__inner > div:first-child { border-left: 0; }
+  .trust strong { font: 700 1.7rem/1 var(--font-head); text-transform: uppercase; }
+  .trust strong::after { content: ''; display: block; width: 24px; height: 3px; background: var(--red); margin: 8px 0 6px; }
+  .trust span { color: var(--grey-600); font-size: 0.95rem; }
+  @media (max-width: 640px) { .trust__inner > div { border-left: 0; border-top: 1px solid var(--grey-200); } .trust__inner > div:first-child { border-top: 0; } }
+
+  .svc-grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); }
+  .svc { display: flex; flex-direction: column; text-decoration: none; color: inherit; background: var(--paper); border: 1px solid var(--grey-100); border-radius: var(--radius); overflow: hidden; transition: box-shadow 0.2s, transform 0.2s; }
+  .svc:hover { box-shadow: var(--shadow); transform: translateY(-2px); color: inherit; }
+  .svc img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
+  .svc__body { padding: 20px 22px 24px; border-top: 4px solid var(--ink); flex: 1; display: flex; flex-direction: column; }
+  .svc:hover .svc__body { border-top-color: var(--red); }
+  .svc p { color: var(--grey-600); flex: 1; }
+</style>

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /guides/
+Disallow: /thanks/
+
+Sitemap: https://muddyyorkcontracting.com/sitemap-index.xml

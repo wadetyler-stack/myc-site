@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import BeforeAfter from '../components/BeforeAfter.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
+import FAQ from '../components/FAQ.astro';
+import CTA from '../components/CTA.astro';
+import { projectById, beforeAfterPair, faqs, site, SITE_URL } from '../lib/data.js';
+// TODO (confirm with Dylan): who pulls the building permit and who supplies the engineer's drawings.
+const ids = ['brampton-main-floor-2019', 'main-floor-gut-custom-kitchen-2021', 'bungalow-kitchen-2022', 'junction-open-kitchen-2020', 'junction-living-room-2020', 'south-etobicoke-wall-down-2019', 'main-floor-wall-out-2020'];
+const list = ids.map((id) => projectById[id]).filter(Boolean);
+const showcase = list.find((p) => beforeAfterPair(p));
+const pair = showcase ? beforeAfterPair(showcase) : null;
+const faqList = [
+  faqs['whole-home'][0],
+  faqs.kitchens[0],
+  { q: 'Will I need a structural engineer?', a: 'If the wall is load-bearing, yes. The engineer designs the beam and supports that carry the load once the wall is gone. We can connect you with one.' },
+  faqs.general[0],
+  faqs.general[2],
+];
+const schema = [
+  { '@type': 'Service', name: 'Load-bearing wall removal', serviceType: 'Structural wall removal', provider: { '@id': `${SITE_URL}/#business` }, areaServed: site.service_area.core.map((name) => ({ '@type': 'Place', name })), url: `${SITE_URL}/load-bearing-wall-removal/` },
+  { '@type': 'FAQPage', mainEntity: faqList.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+<Base
+  title="Load-Bearing Wall Removal in Toronto & Etobicoke | Muddy York Contracting"
+  description="Open up your main floor. We remove load-bearing and dividing walls in Etobicoke, West Toronto and Mississauga homes, working with a structural engineer on the beam."
+  schema={schema}
+>
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/whole-home-renovations/">Whole Home</a></li><li>Load-Bearing Wall Removal</li></ol></nav>
+      <h1>Load-bearing wall removal</h1>
+      <p class="lede">The wall between your kitchen and living room is usually the first thing to go in an open-concept renovation. We take out dividing and structural walls as part of main-floor renovations across the west end.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split split--wide-left" style="align-items:start">
+      <div>{pair && <><BeforeAfter before={pair.before} after={pair.after} /><p class="cap">{showcase.title}. <a href={`/projects/${showcase.id}/`}>See the project</a></p></>}</div>
+      <div class="prose">
+        <h2>How it works</h2>
+        <ol class="howto">
+          <li><strong>Free consultation.</strong> We look at the wall, what’s above it and what runs through it, and talk through your options and budget.</li>
+          <li><strong>Engineering.</strong> If the wall is load-bearing, a structural engineer designs the beam and supports. We can connect you with one.</li>
+          <li><strong>Detailed quote.</strong> The knowns, the unknowns (like ductwork or plumbing in the wall) and the timeline, in writing.</li>
+          <li><strong>Clean removal and rebuild.</strong> Temporary supports, the wall comes out, the beam goes in, and we patch, finish and refloor so it looks like it was always open.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--grey">
+    <div class="wrap">
+      <span class="eyebrow">Walls we’ve taken out</span>
+      <h2>Open-concept projects</h2>
+      <ProjectGrid list={list} />
+    </div>
+  </section>
+
+  <FAQ items={faqList} />
+  <CTA title="Thinking about taking a wall out?" />
+</Base>
+<style>
+  .cap { font-size: 0.92rem; color: var(--grey-600); margin-top: 10px; }
+  .howto { padding-left: 1.2em; display: grid; gap: 14px; }
+  .howto li::marker { color: var(--red); font-family: var(--font-head); font-weight: 700; }
+</style>

@@ -1,0 +1,59 @@
+---
+import LogoBadge from './LogoBadge.astro';
+import { biz, site, mainServices, areas, telHref, mailHref } from '../lib/data.js';
+const yr = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="wrap footer__grid">
+    <div class="footer__brand">
+      <LogoBadge size={92} />
+      <p class="footer__tag">{biz.tagline}</p>
+      <p>Clean, honest and reliable general contractors in Etobicoke. Founded by {biz.founders.map((f) => f.name.split(' ')[0]).join(' and ')} {biz.years_in_business.display} ago.</p>
+    </div>
+    <div>
+      <h2 class="footer__h">Services</h2>
+      <ul>
+        {mainServices.map((s) => <li><a href={s.slug}>{s.name}</a></li>)}
+        <li><a href="/load-bearing-wall-removal/">Load-Bearing Wall Removal</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="footer__h">Areas</h2>
+      <ul>
+        {areas.map((a) => <li><a href={a.slug}>{a.name}</a></li>)}
+        <li><a href="/projects/">Project map</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="footer__h">Contact</h2>
+      <ul class="footer__contact">
+        <li><a href={telHref}>{biz.phone.display}</a></li>
+        <li><a href={mailHref}>{biz.email.value}</a></li>
+        <li>Monday–Friday, 8am–5pm</li>
+        <li>Serving {site.service_area.core.join(', ')}</li>
+      </ul>
+      <div class="footer__social">
+        <a href={biz.socials.instagram} rel="noopener" target="_blank">Instagram</a>
+        <a href={biz.socials.facebook} rel="noopener" target="_blank">Facebook</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap footer__base">
+    <span>© {yr} {biz.legal_name}</span>
+    <span><a href="/about/">About</a> · <a href="/contact/">Book a free consultation</a></span>
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--ink); color: var(--grey-200); padding-top: 64px; border-top: 4px solid var(--red); --badge-bg: #fff; --badge-fg: #111; }
+  .footer__grid { display: grid; gap: 40px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); padding-bottom: 48px; }
+  .footer__brand { max-width: 320px; }
+  .footer__tag { font-family: var(--font-head); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #fff; margin: 16px 0 8px; font-size: 1.15rem; }
+  .footer__h { font-size: 1.1rem; letter-spacing: 0.14em; color: #fff; margin-bottom: 16px; }
+  .footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+  .footer a { color: var(--grey-200); text-decoration: none; }
+  .footer a:hover { color: #fff; text-decoration: underline; }
+  .footer__contact a { color: #fff; font-weight: 600; word-break: break-word; }
+  .footer__social { display: flex; gap: 18px; margin-top: 18px; font-weight: 600; }
+  .footer__base { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--ink-3); padding-block: 20px; font-size: 0.88rem; color: var(--grey-400); }
+</style>

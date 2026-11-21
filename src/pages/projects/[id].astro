@@ -1,0 +1,136 @@
+---
+import Base from '../../layouts/Base.astro';
+import BeforeAfter from '../../components/BeforeAfter.astro';
+import Gallery from '../../components/Gallery.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import CTA from '../../components/CTA.astro';
+import { mainServices, pagedProjects, nbById, serviceById, serviceLabel, beforeAfterPair, fmtDate, scopeBullets, cardImage, byDateDesc, SITE_URL } from '../../lib/data.js';
+
+export function getStaticPaths() {
+  return pagedProjects.map((p) => ({ params: { id: p.id }, props: { p } }));
+}
+const { p } = Astro.props;
+const nb = p.neighbourhood ? nbById[p.neighbourhood] : null;
+// Commercial has no service page (it's proof on About), so only link marketed services.
+const svc = mainServices.find((m) => m.id === p.primary_service);
+const pair = beforeAfterPair(p);
+const bullets = scopeBullets(p);
+const hero = cardImage(p);
+const when = fmtDate(p.date_end || p.date_start);
+const where = nb ? `${nb.name}, ${nb.area === 'Toronto' || nb.area === nb.name ? 'Toronto' : nb.area}` : null;
+const confirmedJob = !p.grouping.startsWith('likely');
+const stages = [
+  ['before', 'Before'],
+  ['during', 'During'],
+  ['after', 'After'],
+  ['detail', 'Details'],
+].filter(([k]) => p.images[k]?.length);
+const related = pagedProjects.filter((o) => o.id !== p.id && o.primary_service === p.primary_service).sort(byDateDesc).slice(0, 3);
+const svcName = svc?.name ?? serviceLabel(p.primary_service);
+const inName = nb && !p.title.toLowerCase().includes(nb.name.toLowerCase()) ? ` in ${nb.name}` : '';
+const title = `${p.title}${inName} | ${svcName} | Muddy York Contracting`;
+const desc = [
+  `${p.title}${where ? ` in ${where}` : ''} by Muddy York Contracting (${when}).`,
+  bullets.length ? `Scope: ${bullets.slice(0, 4).join(', ').toLowerCase()}.` : '',
+  p.has_before_after ? 'See the before and after photos.' : 'See the project photos.',
+].join(' ').slice(0, 300);
+const schema = [
+  { '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+    { '@type': 'ListItem', position: 2, name: 'Projects', item: `${SITE_URL}/projects/` },
+    { '@type': 'ListItem', position: 3, name: p.title, item: `${SITE_URL}/projects/${p.id}/` },
+  ] },
+  { '@type': 'CreativeWork', name: p.title, about: svcName, dateCreated: p.date_start, creator: { '@id': `${SITE_URL}/#business` }, image: `${SITE_URL}${hero.lg}`, ...(nb ? { contentLocation: { '@type': 'Place', name: where } } : {}) },
+];
+---
+<Base title={title} description={desc} ogImage={hero.lg} schema={schema}>
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/projects/">Projects</a></li><li>{p.title}</li></ol></nav>
+      <div class="ph-meta">
+        {svc ? <a class="tag" href={svc.slug}>{svcName}</a> : <span class="tag">{svcName}</span>}
+        {nb && <span class="tag tag--light">{nb.name}</span>}
+        <span class="tag tag--light">{when}</span>
+        {p.has_before_after && <span class="tag tag--red">Before &amp; after</span>}
+      </div>
+      <h1>{p.title}</h1>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:40px">
+    <div class="wrap split split--wide-left" style="align-items:start">
+      <div>
+        {pair ? <BeforeAfter before={pair.before} after={pair.after} eager /> : (
+          <img class="lead-img" src={hero.lg} srcset={`${hero.sm} 720w, ${hero.lg} ${hero.w}w`} sizes="(min-width: 900px) 60vw, 100vw" width={hero.w} height={hero.h} alt={hero.alt} fetchpriority="high" />
+        )}
+      </div>
+      <div class="facts">
+        {p.homeowner_goal && (
+          <div class="fact">
+            <h2 class="fact__h">What they wanted</h2>
+            <p>{p.homeowner_goal}.</p>
+          </div>
+        )}
+        {bullets.length > 0 && (
+          <div class="fact">
+            <h2 class="fact__h">What we did</h2>
+            <ul class="checks">{bullets.map((b) => <li>{b}</li>)}</ul>
+          </div>
+        )}
+        <dl class="fact fact--dl">
+          {where && <><dt>Area</dt><dd>{where}</dd></>}
+          <dt>Completed</dt><dd>{when}</dd>
+          <dt>Service</dt><dd>{svc ? <a href={svc.slug}>{svcName}</a> : svcName}</dd>
+        </dl>
+        {!confirmedJob && <p class="note">Photos posted across several updates and grouped here as one project.</p>}
+        <div class="btn-row">
+          <a class="btn btn--red" href="/contact/">Start a project like this</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {stages.map(([k, label]) => (
+    <section class="section stage" id={k}>
+      <div class="wrap">
+        <h2 class="stage__h">{label} <span>({p.images[k].length})</span></h2>
+        <Gallery images={p.images[k]} group={`${p.id}-${k}`} />
+      </div>
+    </section>
+  ))}
+
+  {p.instagram_posts?.length > 0 && (
+    <section class="wrap ig">
+      <p>Originally shared on Instagram: {p.instagram_posts.map((u, i) => <><a href={u} rel="noopener" target="_blank">post {i + 1}</a>{i < p.instagram_posts.length - 1 ? ', ' : ''}</>)}</p>
+    </section>
+  )}
+
+  {related.length > 0 && (
+    <section class="section section--grey">
+      <div class="wrap">
+        <div class="sec-head"><div><span class="eyebrow">More {svcName.toLowerCase()}</span><h2>Related projects</h2></div>{svc && <a class="link-arrow" href={svc.slug}>{svcName}</a>}</div>
+        <div class="grid grid--3">{related.map((r) => <ProjectCard p={r} />)}</div>
+      </div>
+    </section>
+  )}
+  <CTA />
+</Base>
+<style>
+  .ph-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .ph-meta a.tag { text-decoration: none; }
+  .ph-meta a.tag:hover { background: var(--red); color: #fff; }
+  .lead-img { border-radius: var(--radius); max-height: 80vh; width: auto; margin-inline: auto; }
+  .facts { display: grid; gap: 26px; }
+  .fact__h { font-size: 1.15rem; letter-spacing: 0.14em; color: var(--grey-600); margin-bottom: 10px; }
+  .fact p { font-size: 1.2rem; margin: 0; }
+  .fact--dl { display: grid; grid-template-columns: auto 1fr; gap: 8px 20px; margin: 0; padding: 18px 0; border-block: 1px solid var(--grey-100); }
+  .fact--dl dt { font-family: var(--font-head); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--grey-600); }
+  .fact--dl dd { margin: 0; }
+  .note { font-size: 0.9rem; color: var(--grey-600); margin: 0; }
+  .stage { padding-block: 40px; }
+  .stage + .stage { padding-top: 0; }
+  .stage__h { font-size: 1.8rem; border-bottom: 3px solid var(--ink); padding-bottom: 8px; margin-bottom: 18px; }
+  #after .stage__h { border-bottom-color: var(--red); }
+  .stage__h span { color: var(--grey-600); font-weight: 600; }
+  .ig { padding-bottom: 40px; color: var(--grey-600); font-size: 0.95rem; }
+</style>

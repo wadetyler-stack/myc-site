@@ -1,0 +1,83 @@
+---
+import '@fontsource/barlow/400.css';
+import '@fontsource/barlow/500.css';
+import '@fontsource/barlow/600.css';
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/barlow-condensed/700.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { biz, site, SITE_URL } from '../lib/data.js';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  noindex?: boolean;
+  schema?: object[];
+  draft?: string;
+}
+const { title, description, ogImage = '/images/projects/main-floor-white-oak-2025/13-after-lg.webp', noindex = false, schema = [], draft } = Astro.props;
+const canonical = new URL(Astro.url.pathname, SITE_URL).href;
+const og = new URL(ogImage, SITE_URL).href;
+
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'GeneralContractor',
+  '@id': `${SITE_URL}/#business`,
+  name: biz.name,
+  legalName: biz.legal_name,
+  slogan: biz.tagline,
+  url: `${SITE_URL}/`,
+  telephone: biz.phone.e164,
+  email: biz.email.value,
+  logo: `${SITE_URL}/brand/logo-placeholder.png`,
+  image: og,
+  founder: biz.founders.map((f) => ({ '@type': 'Person', name: f.name })),
+  areaServed: site.service_area.core.map((name) => ({ '@type': 'Place', name })),
+  address: { '@type': 'PostalAddress', addressLocality: biz.base.locality, addressRegion: biz.base.region, addressCountry: biz.base.country },
+  openingHoursSpecification: biz.hours.map((h) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: h.opens,
+    closes: h.closes,
+  })),
+  sameAs: Object.values(biz.socials),
+};
+---
+<!doctype html>
+<html lang="en-CA">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#111111" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={biz.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={og} />
+    <meta property="og:locale" content="en_CA" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(org)} />
+    {schema.map((s) => <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', ...s })} />)}
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    {draft && <div class="draft-banner" role="note">Draft, not linked or indexed: {draft}</div>}
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <Lightbox />
+  </body>
+</html>

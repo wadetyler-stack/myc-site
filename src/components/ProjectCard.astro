@@ -1,0 +1,32 @@
+---
+import { cardImage, projectUrl, serviceLabel, nbById, year, smW } from '../lib/data.js';
+interface Props { p: any }
+const { p } = Astro.props;
+const img = cardImage(p);
+const url = projectUrl(p);
+const nb = p.neighbourhood ? nbById[p.neighbourhood]?.name : null;
+const Tag = url ? 'a' : 'div';
+---
+<article class="pcard" data-services={p.services.join(' ')} data-hasba={p.has_before_after ? '1' : '0'}>
+  <Tag class="pcard__link" href={url ?? undefined}>
+    <div class="pcard__img">
+      {img && <img src={img.sm} width={smW(img)} height={Math.round((img.h * smW(img)) / img.w)} alt={img.alt} loading="lazy" decoding="async" />}
+      {p.has_before_after && <span class="tag tag--red pcard__badge">Before &amp; after</span>}
+    </div>
+    <div class="pcard__body">
+      <span class="pcard__meta">{serviceLabel(p.primary_service)} · {year(p.date_end || p.date_start)}{nb && ` · ${nb}`}</span>
+      <h3 class="pcard__title">{p.title}</h3>
+    </div>
+  </Tag>
+</article>
+<style>
+  .pcard__link { display: block; text-decoration: none; color: inherit; height: 100%; background: var(--paper); border: 1px solid var(--grey-100); border-radius: var(--radius); overflow: hidden; transition: box-shadow 0.2s, transform 0.2s; }
+  a.pcard__link:hover { box-shadow: var(--shadow); transform: translateY(-2px); color: inherit; }
+  .pcard__img { position: relative; aspect-ratio: 4 / 3; background: var(--grey-100); overflow: hidden; }
+  .pcard__img img { width: 100%; height: 100%; object-fit: cover; }
+  .pcard__badge { position: absolute; left: 12px; top: 12px; }
+  .pcard__body { padding: 16px 18px 20px; }
+  .pcard__meta { font-size: 0.85rem; color: var(--grey-600); font-weight: 500; }
+  .pcard__title { margin: 6px 0 0; font-size: 1.35rem; }
+  a.pcard__link:hover .pcard__title { color: var(--red); }
+</style>

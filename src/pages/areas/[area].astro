@@ -1,0 +1,81 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectMap from '../../components/ProjectMap.astro';
+import ProjectGrid from '../../components/ProjectGrid.astro';
+import Process from '../../components/Process.astro';
+import FAQ from '../../components/FAQ.astro';
+import CTA from '../../components/CTA.astro';
+import { areas, projects, mainServices, byDateDesc, faqs, cardImage, SITE_URL } from '../../lib/data.js';
+
+export function getStaticPaths() {
+  return areas.map((a) => ({ params: { area: a.id }, props: { a } }));
+}
+const { a } = Astro.props;
+const local = projects.filter((p) => p.neighbourhood && a.pins.includes(p.neighbourhood)).sort(byDateDesc);
+const heroP = local.find((p) => p.has_before_after) ?? local[0];
+const hero = heroP ? cardImage(heroP) : mainServices[0].hero_images[0];
+const faqList = faqs.general.slice(0, 5);
+const schema = [
+  { '@type': 'WebPage', name: a.h1, url: `${SITE_URL}${a.slug}`, about: { '@id': `${SITE_URL}/#business` }, spatialCoverage: { '@type': 'Place', name: a.name } },
+  { '@type': 'FAQPage', mainEntity: faqList.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+    { '@type': 'ListItem', position: 2, name: a.name, item: `${SITE_URL}${a.slug}` },
+  ] },
+];
+---
+<Base title={a.title} description={a.description} ogImage={hero.lg} schema={schema}>
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li>Areas</li><li>{a.name}</li></ol></nav>
+      <h1>{a.h1}</h1>
+      <p class="lede">{a.lede}</p>
+      <div class="btn-row" style="margin-top:20px"><a class="btn btn--red" href="/contact/">Book a free consultation</a></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split" style="align-items:start">
+      <div class="prose">
+        {a.body.map((p) => <p>{p}</p>)}
+        <h2>Neighbourhoods we serve</h2>
+        <ul class="nbs">{a.neighbourhood_names.map((n) => <li>{n}</li>)}</ul>
+      </div>
+      <div>
+        <h2>Services in {a.name}</h2>
+        <ul class="svc-links">
+          {mainServices.map((s) => <li><a href={s.slug}><span>{s.name}</span><span aria-hidden="true">→</span></a></li>)}
+          <li><a href="/load-bearing-wall-removal/"><span>Load-Bearing Wall Removal</span><span aria-hidden="true">→</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--grey">
+    <div class="wrap">
+      <span class="eyebrow">Local projects</span>
+      <h2>Our work in {a.name}</h2>
+      <ProjectMap pins={a.pins} center={a.map_center} zoom={a.map_zoom} height="460px" id={`map-${a.id}`} />
+    </div>
+  </section>
+
+  {local.length > 0 && (
+    <section class="section">
+      <div class="wrap">
+        <h2>{a.name} projects</h2>
+        <ProjectGrid list={local} />
+      </div>
+    </section>
+  )}
+
+  <Process />
+  <FAQ items={faqList} />
+  <CTA title={`Planning a renovation in ${a.name}?`} />
+</Base>
+<style>
+  .nbs { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .nbs li { background: var(--grey-50); border: 1px solid var(--grey-100); padding: 6px 12px; border-radius: 999px; font-weight: 500; font-size: 0.95rem; }
+  .svc-links { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--grey-200); }
+  .svc-links a { display: flex; justify-content: space-between; padding: 16px 4px; border-bottom: 1px solid var(--grey-200); text-decoration: none; font: 600 1.25rem/1.2 var(--font-head); text-transform: uppercase; letter-spacing: 0.04em; }
+  .svc-links a span:last-child { color: var(--red); }
+</style>

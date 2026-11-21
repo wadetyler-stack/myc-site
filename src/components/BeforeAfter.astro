@@ -1,0 +1,26 @@
+---
+/** Before/after comparison slider. Drag, click or use arrow keys on the range input. */
+interface Props { before: { lg: string; sm: string; w: number; h: number; alt: string }; after: { lg: string; sm: string; w: number; h: number; alt: string }; eager?: boolean; ratio?: string }
+const { before, after, eager = false, ratio = '4 / 3' } = Astro.props;
+import { srcset } from '../lib/data.js';
+const sizes = '(min-width: 1200px) 1100px, 100vw';
+---
+<figure class="ba" style={`--ratio: ${ratio}`} data-ba>
+  <div class="ba__stage">
+    <img class="ba__img" src={after.lg} srcset={srcset(after)} sizes={sizes} width={after.w} height={after.h} alt={after.alt} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+    <div class="ba__before">
+      <img class="ba__img" src={before.lg} srcset={srcset(before)} sizes={sizes} width={before.w} height={before.h} alt={before.alt} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+    </div>
+    <span class="ba__label ba__label--b">Before</span>
+    <span class="ba__label ba__label--a">After</span>
+    <div class="ba__handle" aria-hidden="true"><span></span></div>
+    <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Drag to compare before and after" />
+  </div>
+</figure>
+
+
+
+<script>
+  import { initBA } from '../scripts/ba.js';
+  initBA(document);
+</script>

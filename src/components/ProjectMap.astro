@@ -1,0 +1,281 @@
+---
+/**
+ * Neighbourhood project map. Pins sit at approximate neighbourhood centres only,
+ * never at an address. Data comes from projects.json (map_ready + neighbourhood),
+ * so adding a neighbourhood or tagging a job is a data-only change.
+ */
+import { mapData, serviceLabel } from '../lib/data.js';
+interface Props {
+  service?: string;          // pre-filter to one service (service pages)
+  pins?: string[];           // limit to these neighbourhood ids (area pages)
+  chips?: boolean;
+  center?: [number, number];
+  zoom?: number;
+  height?: string;
+  id?: string;
+}
+const { service, pins, chips = true, center = [43.66, -79.58], zoom = 10, height = '620px', id = 'map' } = Astro.props;
+let data = mapData();
+if (pins) data = data.filter((n) => pins.includes(n.id));
+if (service) data = data.map((n) => ({ ...n, jobs: n.jobs.filter((j) => j.services.includes(service)) })).filter((n) => n.jobs.length);
+const services = ['basements', 'kitchens', 'bathrooms', 'decks-exterior', 'whole-home'];
+const total = data.reduce((a, n) => a + n.jobs.length, 0);
+const cfg = { center, zoom, service: service ?? 'all' };
+---
+<div class="pmap" data-myc-map id={id}>
+  <div class="pmap__bar">
+    {chips && !service && (
+      <div class="chips" role="group" aria-label="Filter map by service">
+        <button class="chip" aria-pressed="true" data-svc="all">All</button>
+        {services.map((s) => <button class="chip" aria-pressed="false" data-svc={s}>{serviceLabel(s)}</button>)}
+      </div>
+    )}
+    <p class="pmap__total">{total} mapped project{total === 1 ? '' : 's'} in {data.length} area{data.length === 1 ? '' : 's'}</p>
+    <button class="btn btn--ghost pmap__view" aria-pressed="false" data-listtoggle>View as list</button>
+  </div>
+
+  <div class="pmap__body" style={`--h:${height}`}>
+    <div class="pmap__canvas" role="region" aria-label="Map of project neighbourhoods. Select a pin to see projects."></div>
+    <aside class="pmap__panel" aria-live="polite" hidden>
+      <div class="pmap__panel-head">
+        <button class="pmap__back" hidden aria-label="Back to neighbourhood list">‹ Back</button>
+        <button class="pmap__close" aria-label="Close panel">×</button>
+      </div>
+      <div class="pmap__panel-body"></div>
+    </aside>
+    <div class="pmap__hint" aria-hidden="true">Tap a pin to see the work done there</div>
+  </div>
+
+  <div class="pmap__list" hidden>
+    {data.map((n) => (
+      <section class="pmap__list-nb" data-nb={n.id}>
+        <h3>{n.name} <span>({n.jobs.length})</span></h3>
+        <ul>
+          {n.jobs.map((j) => (
+            <li data-services={j.services.join(' ')}>
+              {j.url ? <a href={j.url}>{j.title}</a> : <span>{j.title}</span>}
+              <small> · {j.serviceLabel} · {j.date}</small>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+
+  <script type="application/json" class="pmap__data" set:html={JSON.stringify({ cfg, data })} />
+  <p class="pmap__note">Pins mark the general neighbourhood only, never a home's address. More areas are added as projects are tagged.</p>
+</div>
+
+<style is:global>
+  .pmap__bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-bottom: 16px; }
+  .pmap__total { margin: 0; color: var(--grey-600); font-size: 0.95rem; }
+  .pmap__view { margin-left: auto; min-height: 40px; padding: 8px 16px; font-size: 0.95rem; }
+  .pmap__body { position: relative; height: var(--h); min-height: 420px; border: 1px solid var(--grey-200); border-radius: var(--radius); overflow: hidden; background: var(--grey-100); }
+  .pmap__canvas { position: absolute; inset: 0; z-index: 1; }
+  .pmap__canvas .leaflet-tile-pane { filter: grayscale(1) contrast(1.05) brightness(1.03); }
+  .pmap__hint { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 500; background: var(--ink); color: #fff; padding: 8px 14px; font-size: 0.9rem; font-weight: 600; border-radius: 999px; pointer-events: none; white-space: nowrap; }
+  .pmap__body.has-panel .pmap__hint { display: none; }
+  .pmap__note { font-size: 0.85rem; color: var(--grey-600); margin-top: 10px; }
+
+  /* Pins */
+  .pin { display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--ink); color: #fff; font: 700 1rem/1 var(--font-head); border: 3px solid #fff; box-shadow: 0 2px 8px rgb(0 0 0 / 0.35); transition: transform 0.15s, background 0.15s; }
+  .pin:hover, .pin.is-active { background: var(--red); transform: scale(1.12); }
+  .leaflet-marker-icon:focus-visible .pin { outline: 3px solid var(--red); outline-offset: 3px; }
+  .pin-label { background: #fff; border: 0; border-radius: 2px; box-shadow: var(--shadow); font: 600 0.85rem/1 var(--font-body); padding: 6px 8px; color: var(--ink); }
+  .pin-label::before { display: none; }
+
+  /* Panel */
+  .pmap__panel { position: absolute; z-index: 600; top: 0; right: 0; bottom: 0; width: min(420px, 100%); background: var(--paper); box-shadow: -8px 0 24px rgb(0 0 0 / 0.15); display: flex; flex-direction: column; }
+  .pmap__panel-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-bottom: 1px solid var(--grey-100); }
+  .pmap__back, .pmap__close { background: none; border: 0; cursor: pointer; font: 700 1rem/1 var(--font-head); letter-spacing: 0.06em; text-transform: uppercase; padding: 8px; min-height: 40px; color: var(--ink); }
+  .pmap__close { font-size: 1.8rem; margin-left: auto; }
+  .pmap__back:hover, .pmap__close:hover { color: var(--red); }
+  .pmap__panel-body { overflow-y: auto; padding: 16px 18px 24px; flex: 1; }
+  .pmap__panel-body h3 { font-size: 1.7rem; text-transform: uppercase; margin-bottom: 4px; }
+  .pmap__sub { color: var(--grey-600); font-size: 0.92rem; margin-bottom: 16px; }
+  .pjobs { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .pjob { display: grid; grid-template-columns: 92px 1fr; gap: 12px; align-items: center; width: 100%; text-align: left; background: var(--grey-50); border: 1px solid transparent; border-radius: var(--radius); padding: 8px; cursor: pointer; font: inherit; color: inherit; }
+  .pjob:hover { border-color: var(--ink); }
+  .pjob img { width: 92px; height: 72px; object-fit: cover; border-radius: 2px; background: var(--grey-200); }
+  .pjob strong { display: block; font-family: var(--font-head); font-size: 1.15rem; line-height: 1.15; }
+  .pjob small { color: var(--grey-600); }
+  .ptabs { display: flex; gap: 0; border-bottom: 2px solid var(--grey-100); margin: 14px 0 12px; }
+  .ptab { background: none; border: 0; padding: 10px 14px; font: 700 0.95rem/1 var(--font-head); letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; color: var(--grey-600); border-bottom: 3px solid transparent; margin-bottom: -2px; }
+  .ptab[aria-selected='true'] { color: var(--ink); border-bottom-color: var(--red); }
+  .pthumbs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .pthumbs a { display: block; aspect-ratio: 1; overflow: hidden; border-radius: 2px; background: var(--grey-100); }
+  .pthumbs img { width: 100%; height: 100%; object-fit: cover; }
+  .pmap__panel .ba { margin-bottom: 6px; }
+  .pmap__panel .btn { width: 100%; margin-top: 16px; }
+
+  /* List view */
+  .pmap__list { display: grid; gap: 24px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); padding: 8px 0; }
+  .pmap__list h3 { font-size: 1.4rem; border-bottom: 3px solid var(--red); padding-bottom: 6px; }
+  .pmap__list h3 span { color: var(--grey-600); font-weight: 600; }
+  .pmap__list ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+  .pmap__list small { color: var(--grey-600); }
+
+  @media (max-width: 760px) {
+    .pmap__body { height: 70vh; min-height: 460px; }
+    .pmap__panel { top: auto; left: 0; width: 100%; max-height: 72%; border-radius: 14px 14px 0 0; box-shadow: 0 -8px 24px rgb(0 0 0 / 0.2); }
+    .pmap__panel-head::before { content: ''; position: absolute; left: 50%; top: 6px; width: 44px; height: 4px; margin-left: -22px; border-radius: 4px; background: var(--grey-200); }
+    .pmap__panel-head { position: relative; padding-top: 16px; }
+    .pmap__view { margin-left: 0; }
+  }
+</style>
+
+<script>
+  import 'leaflet/dist/leaflet.css';
+  import L from 'leaflet';
+  import { initBA } from '../scripts/ba.js';
+
+  const esc = (s: string) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+
+  document.querySelectorAll<HTMLElement>('[data-myc-map]').forEach((root) => {
+    const { cfg, data } = JSON.parse(root.querySelector('.pmap__data')!.textContent!);
+    const canvas = root.querySelector<HTMLElement>('.pmap__canvas')!;
+    const body = root.querySelector<HTMLElement>('.pmap__body')!;
+    const panel = root.querySelector<HTMLElement>('.pmap__panel')!;
+    const pbody = root.querySelector<HTMLElement>('.pmap__panel-body')!;
+    const back = root.querySelector<HTMLButtonElement>('.pmap__back')!;
+    const list = root.querySelector<HTMLElement>('.pmap__list')!;
+    let svc: string = cfg.service;
+    let activeNb: any = null;
+
+    const map = L.map(canvas, { scrollWheelZoom: false, zoomControl: true }).setView(cfg.center, cfg.zoom);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 17,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+    map.on('focus', () => map.scrollWheelZoom.enable());
+    map.on('blur', () => map.scrollWheelZoom.disable());
+
+    const jobsFor = (n: any) => n.jobs.filter((j: any) => svc === 'all' || j.services.includes(svc));
+    const layer = L.layerGroup().addTo(map);
+    const markers = new Map<string, L.Marker>();
+
+    let fitted = false;
+    function drawPins() {
+      layer.clearLayers();
+      markers.clear();
+      const pts: L.LatLngExpression[] = [];
+      const z = map.getZoom();
+      const scale = z >= 13 ? 1 : z >= 12 ? 0.85 : 0.68;
+      for (const n of data) {
+        const c = jobsFor(n).length;
+        if (!c) continue;
+        const size = Math.round(Math.min(58, 30 + c * 4) * scale);
+        const icon = L.divIcon({ className: '', html: `<div class="pin${activeNb?.id === n.id ? ' is-active' : ''}" style="width:${size}px;height:${size}px;font-size:${Math.max(12, size * 0.42)}px">${c}</div>`, iconSize: [size, size], iconAnchor: [size / 2, size / 2] });
+        const m = L.marker([n.lat, n.lng], { icon, keyboard: true, title: `${n.name}: ${c} project${c > 1 ? 's' : ''}`, alt: n.name, riseOnHover: true })
+          .bindTooltip(n.name, { className: 'pin-label', direction: 'top', offset: [0, -size / 2] })
+          .on('click', () => openNb(n));
+        m.addTo(layer);
+        markers.set(n.id, m);
+        pts.push([n.lat, n.lng]);
+      }
+      if (!fitted) {
+        fitted = true;
+        if (pts.length > 1) map.fitBounds(L.latLngBounds(pts), { padding: [40, 40], maxZoom: 13 });
+        else if (pts.length === 1) map.setView(pts[0], 13);
+      }
+    }
+    map.on('zoomend', () => drawPins());
+
+    /** Centre a point in the part of the map the panel doesn't cover. */
+    function focusOn(lat: number, lng: number) {
+      const z = Math.max(map.getZoom(), 13);
+      const wide = canvas.clientWidth > 760;
+      const off = wide ? L.point(Math.min(420, canvas.clientWidth) / 2, 0) : L.point(0, canvas.clientHeight * 0.3);
+      const target = map.unproject(map.project([lat, lng], z).add(off), z);
+      map.flyTo(target, z, { duration: 0.6 });
+    }
+
+    function setActive(id: string | null) {
+      markers.forEach((m, k) => m.getElement()?.querySelector('.pin')?.classList.toggle('is-active', k === id));
+    }
+
+    function showPanel() { panel.hidden = false; body.classList.add('has-panel'); }
+    function closePanel() { panel.hidden = true; body.classList.remove('has-panel'); activeNb = null; setActive(null); }
+
+    function openNb(n: any) {
+      const changed = activeNb?.id !== n.id;
+      activeNb = n;
+      setActive(n.id);
+      if (changed) focusOn(n.lat, n.lng);
+      back.hidden = true;
+      const jobs = jobsFor(n);
+      pbody.innerHTML = `
+        <h3>${esc(n.name)}</h3>
+        <p class="pmap__sub">${esc(n.area)} · ${jobs.length} project${jobs.length > 1 ? 's' : ''}</p>
+        <ul class="pjobs">${jobs.map((j: any, i: number) => `
+          <li><button class="pjob" data-i="${i}">
+            ${j.thumb ? `<img src="${esc(j.thumb)}" alt="" loading="lazy">` : '<span></span>'}
+            <span><strong>${esc(j.title)}</strong><small>${esc(j.serviceLabel)} · ${esc(j.date)}</small></span>
+          </button></li>`).join('')}
+        </ul>`;
+      pbody.querySelectorAll<HTMLButtonElement>('.pjob').forEach((b) => b.addEventListener('click', () => openJob(jobs[Number(b.dataset.i)])));
+      showPanel();
+      pbody.scrollTop = 0;
+      (pbody.querySelector('.pjob') as HTMLElement | null)?.focus({ preventScroll: true });
+    }
+
+    function openJob(j: any) {
+      back.hidden = false;
+      const stages = (['before', 'during', 'after'] as const).filter((s) => j.stages[s].length);
+      const first = stages.includes('after') ? 'after' : stages[0];
+      const slider = j.pair ? `
+        <figure class="ba" data-ba style="--ratio: 4 / 3"><div class="ba__stage">
+          <img class="ba__img" src="${esc(j.pair.after)}" alt="${esc(j.pair.afterAlt)}">
+          <div class="ba__before"><img class="ba__img" src="${esc(j.pair.before)}" alt="${esc(j.pair.beforeAlt)}"></div>
+          <span class="ba__label ba__label--b">Before</span><span class="ba__label ba__label--a">After</span>
+          <div class="ba__handle" aria-hidden="true"><span></span></div>
+          <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Drag to compare before and after">
+        </div></figure>` : '';
+      pbody.innerHTML = `
+        <h3>${esc(j.title)}</h3>
+        <p class="pmap__sub">${esc(activeNb.name)} · ${esc(j.serviceLabel)} · ${esc(j.date)}</p>
+        ${slider}
+        <div class="ptabs" role="tablist">${stages.map((s) => `<button class="ptab" role="tab" data-s="${s}" aria-selected="${s === first}">${s === 'during' ? 'During' : s[0].toUpperCase() + s.slice(1)} (${j.stages[s].length})</button>`).join('')}</div>
+        <div class="pthumbs" role="tabpanel"></div>
+        ${j.url ? `<a class="btn btn--dark" href="${esc(j.url)}">See the full project</a>` : ''}`;
+      const thumbs = pbody.querySelector<HTMLElement>('.pthumbs')!;
+      const group = `map-${j.id}`;
+      const render = (s: string) => {
+        thumbs.innerHTML = j.stages[s].map((im: any) => `<a href="${esc(im.lg)}" data-lightbox="${group}-${s}" data-alt="${esc(im.alt)}"><img src="${esc(im.sm)}" alt="${esc(im.alt)}" loading="lazy"></a>`).join('');
+      };
+      pbody.querySelectorAll<HTMLButtonElement>('.ptab').forEach((t) => t.addEventListener('click', () => {
+        pbody.querySelectorAll('.ptab').forEach((o) => o.setAttribute('aria-selected', String(o === t)));
+        render(t.dataset.s!);
+      }));
+      if (first) render(first);
+      initBA(pbody);
+      pbody.scrollTop = 0;
+    }
+
+    back.addEventListener('click', () => activeNb && openNb(activeNb));
+    root.querySelector('.pmap__close')!.addEventListener('click', closePanel);
+
+    root.querySelectorAll<HTMLButtonElement>('[data-svc]').forEach((b) => b.addEventListener('click', () => {
+      svc = b.dataset.svc!;
+      root.querySelectorAll('[data-svc]').forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
+      closePanel();
+      fitted = false;
+      drawPins();
+      // keep list view in sync
+      list.querySelectorAll<HTMLElement>('li[data-services]').forEach((li) => (li.hidden = svc !== 'all' && !li.dataset.services!.split(' ').includes(svc)));
+      list.querySelectorAll<HTMLElement>('.pmap__list-nb').forEach((sec) => (sec.hidden = !sec.querySelector('li:not([hidden])')));
+    }));
+
+    const lt = root.querySelector<HTMLButtonElement>('[data-listtoggle]')!;
+    lt.addEventListener('click', () => {
+      const showList = lt.getAttribute('aria-pressed') !== 'true';
+      lt.setAttribute('aria-pressed', String(showList));
+      lt.textContent = showList ? 'View as map' : 'View as list';
+      list.hidden = !showList;
+      body.hidden = showList;
+      if (!showList) setTimeout(() => map.invalidateSize(), 0);
+    });
+
+    drawPins();
+  });
+</script>

@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+import Process from '../components/Process.astro';
+import Testimonials from '../components/Testimonials.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import CTA from '../components/CTA.astro';
+import { biz, site, projects, hasPage, byDateDesc, SITE_URL } from '../lib/data.js';
+const commercial = projects.filter((p) => p.primary_service === 'commercial' && hasPage(p)).sort(byDateDesc);
+---
+<Base
+  title="About Muddy York Contracting | Etobicoke General Contractors"
+  description={`Muddy York Contracting was founded by Dylan Lauzon and Blake ${biz.years_in_business.display} ago. A small, Etobicoke-based renovation crew known for clean sites and honest quotes.`}
+  schema={[{ '@type': 'AboutPage', name: 'About Muddy York Contracting', url: `${SITE_URL}/about/` }]}
+>
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li>About</li></ol></nav>
+      <h1>Clean, honest and reliable</h1>
+      <p class="lede">Muddy York Contracting is a small general contracting company based in Etobicoke, founded by Dylan Lauzon and Blake {biz.years_in_business.display} ago.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split" style="align-items:start">
+      <div class="prose">
+        <span class="eyebrow">Who we are</span>
+        <h2>Craftspeople first</h2>
+        <p>Between us we have decades of hands-on experience, from brick-and-mortar repair and underpinning to framing, finishing basements and fine trim. We started this company on truth, transparency and good craftsmanship, and we’ve renovated our own family homes, so we know what it’s like to live through one.</p>
+        <p>We handle everything from demolition and framing to electrical, plumbing, drywall and finishing.</p>
+        <p>Outside of work you’ll find us fishing, coaching baseball and at the barbecue with our families.</p>
+      </div>
+      <div class="founders">
+        {biz.founders.map((f) => (
+          <div class="founder">
+            <span class="founder__initial" aria-hidden="true">{f.name[0]}</span>
+            <div><h3>{f.name}</h3><p>{f.title}</p></div>
+          </div>
+        ))}
+        <p class="founders__note">{biz.years_in_business.display} in business · Serving {site.service_area.core.join(', ')}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--grey">
+    <div class="wrap split" style="align-items:start">
+      <div>
+        <span class="eyebrow">What to expect</span>
+        <h2>Not a design/build firm, on purpose</h2>
+      </div>
+      <div class="prose">
+        <p>We’re general contractors, so you’re not paying design/build fees for things you don’t need. If your project calls for an architect, a structural engineer or an interior designer, we’ll connect you with one we trust.</p>
+        <ul class="checks">
+          <li><strong>We’re clean.</strong> Drywall dust gets called “divorce dust” for a reason. At the end of every workday we tidy the site, organize our tools and take out the trash.</li>
+          <li><strong>We quote the unknowns.</strong> Your quote lays out the knowns, the unknowns, the timeline and the services, with tiered options. Compare it, question it, and we’ll talk it through.</li>
+          <li><strong>No driveway warranty.</strong> We come back one week after we finish. Make a list of anything that needs attention and we’ll take care of it.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">2022 in review</span>
+        <h2>A year on the job</h2>
+        <p class="lede">A quick look at a year of projects, from demolition to the finished rooms.</p>
+      </div>
+      <video class="reel" controls preload="none" playsinline poster="/images/projects/basement-full-gut-2022/04-after-lg.webp">
+        <source src="/video/2022-year-recap-reel-2023.mp4" type="video/mp4" />
+      </video>
+    </div>
+  </section>
+
+  {commercial.length > 0 && (
+    <section class="section section--grey">
+      <div class="wrap">
+        <span class="eyebrow">Commercial work</span>
+        <h2>Small commercial build-outs</h2>
+        <p class="lede">Alongside homes, we’ve built out a barbershop, a baseball training facility with turf and pitching mounds, and a photo studio with a drywall cove. Pro Teach Baseball has been a repeat client for years.</p>
+        <div class="grid grid--3" style="margin-top:28px">{commercial.map((p) => <ProjectCard p={p} />)}</div>
+      </div>
+    </section>
+  )}
+
+  <Process />
+  <Testimonials />
+  <CTA />
+</Base>
+<style>
+  .founders { display: grid; gap: 16px; }
+  .founder { display: flex; align-items: center; gap: 20px; padding: 22px; background: var(--grey-50); border-left: 4px solid var(--red); }
+  .founder__initial { width: 72px; height: 72px; flex: none; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; font: 700 2.2rem/1 var(--font-head); }
+  .founder h3 { margin: 0; font-size: 1.6rem; }
+  .founder p { margin: 0; color: var(--grey-600); }
+  .founders__note { color: var(--grey-600); font-size: 0.95rem; }
+  .reel { width: 100%; max-height: 80vh; background: #000; border-radius: var(--radius); aspect-ratio: 9 / 16; max-width: 420px; margin-inline: auto; }
+</style>

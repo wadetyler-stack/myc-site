@@ -1,0 +1,25 @@
+---
+import { biz, telHref } from '../lib/data.js';
+interface Props { title?: string; text?: string }
+const { title = 'Tell us about your project', text = 'Book a free consultation. We’ll walk the space with you, talk through options and budget, and follow up with a detailed quote.' } = Astro.props;
+---
+<section class="cta">
+  <div class="wrap cta__inner">
+    <div>
+      <h2>{title}</h2>
+      <p>{text}</p>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn--red" href="/contact/">Book a free consultation</a>
+      <a class="btn btn--ghost" href={telHref}>Call {biz.phone.display}</a>
+    </div>
+  </div>
+</section>
+<style>
+  .cta { background: var(--ink); color: #fff; padding-block: clamp(48px, 7vw, 80px); position: relative; overflow: hidden; }
+  .cta::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: var(--red); }
+  .cta__inner { display: flex; justify-content: space-between; align-items: center; gap: 28px; flex-wrap: wrap; }
+  .cta h2 { margin-bottom: 8px; }
+  .cta p { color: var(--grey-200); max-width: 56ch; margin: 0; }
+  .cta .btn--ghost:hover { background: #fff; color: var(--ink); border-color: #fff; }
+</style>

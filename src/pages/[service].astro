@@ -1,0 +1,116 @@
+---
+import Base from '../layouts/Base.astro';
+import BeforeAfter from '../components/BeforeAfter.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
+import ProjectMap from '../components/ProjectMap.astro';
+import Process from '../components/Process.astro';
+import FAQ from '../components/FAQ.astro';
+import CTA from '../components/CTA.astro';
+import Testimonials from '../components/Testimonials.astro';
+import { mainServices, projects, projectById, beforeAfterPair, byDateDesc, faqs, biz, site, SITE_URL, mapData, guides } from '../lib/data.js';
+import { serviceCopy } from '../lib/copy.js';
+
+export function getStaticPaths() {
+  return mainServices.map((s) => ({ params: { service: s.slug.replaceAll('/', '') }, props: { s } }));
+}
+const { s } = Astro.props;
+const copy = serviceCopy[s.id];
+const hero = s.hero_images[0];
+const featured = projectById[s.featured_before_after];
+const pair = featured ? beforeAfterPair(featured) : null;
+const list = projects.filter((p) => p.services.includes(s.id)).sort(byDateDesc);
+const hasMapped = mapData().some((n) => n.jobs.some((j) => j.services.includes(s.id)));
+const faqList = [...(faqs[s.id] ?? []), ...faqs.general.slice(0, 4)];
+const schema = [
+  {
+    '@type': 'Service',
+    name: s.name,
+    serviceType: s.name,
+    description: copy.description,
+    provider: { '@id': `${SITE_URL}/#business` },
+    areaServed: site.service_area.core.map((name) => ({ '@type': 'Place', name })),
+    url: `${SITE_URL}${s.slug}`,
+  },
+  { '@type': 'FAQPage', mainEntity: faqList.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+    { '@type': 'ListItem', position: 2, name: s.name, item: `${SITE_URL}${s.slug}` },
+  ] },
+];
+---
+<Base title={copy.title} description={copy.description} ogImage={hero.lg} schema={schema}>
+  <section class="hero hero--short">
+    <img class="hero__img" src={hero.lg} alt={hero.alt} width="1600" height="1200" fetchpriority="high" />
+    <div class="wrap">
+      <div class="hero__inner">
+        <nav class="crumbs" aria-label="Breadcrumb" style="color:#cfcfcb"><ol><li><a href="/">Home</a></li><li>{s.name}</li></ol></nav>
+        <span class="eyebrow">Etobicoke · West Toronto · Mississauga · Oakville</span>
+        <h1>{copy.h1}</h1>
+        <p class="lede">{copy.lede}</p>
+        <div class="btn-row">
+          <a class="btn btn--red" href="/contact/">Book a free consultation</a>
+          <a class="btn btn--ghost" href="#projects">See {list.length} projects</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split split--wide-left">
+      <div>
+        {pair ? (
+          <>
+            <BeforeAfter before={pair.before} after={pair.after} />
+            <p class="caption">{featured.title}{featured.neighbourhood ? '' : ''}. <a href={`/projects/${featured.id}/`}>See the full project</a></p>
+          </>
+        ) : (
+          <img src={s.hero_images[1]?.lg ?? hero.lg} alt={s.hero_images[1]?.alt ?? hero.alt} loading="lazy" />
+        )}
+      </div>
+      <div class="prose">
+        <span class="eyebrow">What we do</span>
+        <h2>{copy.introHeading}</h2>
+        {copy.intro.map((p) => <p>{p}</p>)}
+        <ul class="checks">{copy.includes.map((i) => <li>{i}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  {copy.sections?.map((sec) => (
+    <section class="section section--grey">
+      <div class="wrap prose">
+        <h2>{sec.h}</h2>
+        {sec.p.map((p) => <p>{p}</p>)}
+        {sec.link && <p><a class="link-arrow" href={sec.link.href}>{sec.link.label}</a></p>}
+      </div>
+    </section>
+  ))}
+
+  <section class="section" id="projects">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="eyebrow">Real projects</span><h2>{copy.gridHeading}</h2></div>
+        <a class="link-arrow" href="/projects/">All projects</a>
+      </div>
+      <ProjectGrid list={list} />
+    </div>
+  </section>
+
+  {hasMapped && (
+    <section class="section section--grey">
+      <div class="wrap">
+        <span class="eyebrow">Where we've worked</span>
+        <h2>{s.name} near you</h2>
+        <ProjectMap service={s.id} height="480px" id={`map-${s.id}`} />
+      </div>
+    </section>
+  )}
+
+  <Process />
+  {s.id === 'bathrooms' && <Testimonials only={['bathrooms']} />}
+  <FAQ items={faqList} />
+  <CTA />
+</Base>
+<style>
+  .caption { font-size: 0.92rem; color: var(--grey-600); margin-top: 10px; }
+</style>

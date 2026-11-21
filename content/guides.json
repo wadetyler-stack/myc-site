@@ -1,0 +1,47 @@
+[
+ {
+  "id": "bathroom-renovation-cost-toronto",
+  "service": "bathrooms",
+  "published": false,
+  "title": "How Much Does a Bathroom Renovation Cost in Toronto? | Muddy York Contracting",
+  "description": "What drives the cost of a bathroom renovation in Toronto, Etobicoke and Mississauga, and how to read a contractor's quote.",
+  "h1": "Bathroom renovation cost in Toronto",
+  "todo": "Needs real price ranges from Dylan (e.g. powder room refresh, full gut of a standard bathroom, primary ensuite) before publishing.",
+  "drivers": [
+   {"h": "Moving plumbing", "p": "Keeping the toilet, tub and vanity where they are is the biggest saving. Moving them means opening floors and walls and re-routing drains to the stack."},
+   {"h": "Tub or walk-in shower", "p": "Tiled walk-in showers with glass doors, niches and rain heads take more labour and material than a tub with a surround."},
+   {"h": "Tile choice and coverage", "p": "Large-format and handmade tile, full-height walls and heated floors all add cost."},
+   {"h": "The age of the house", "p": "Older Toronto homes can hide rotten subfloors, old galvanized pipe or out-of-level framing. A good quote lists these as unknowns up front."}
+  ]
+ },
+ {
+  "id": "kitchen-renovation-cost-toronto",
+  "service": "kitchens",
+  "published": false,
+  "title": "How Much Does a Kitchen Renovation Cost in Toronto? | Muddy York Contracting",
+  "description": "What drives the cost of a kitchen renovation in Toronto, from facelifts to opening up the main floor.",
+  "h1": "Kitchen renovation cost in Toronto",
+  "todo": "Needs real price ranges from Dylan (facelift, full remodel same layout, open-concept with wall removal).",
+  "drivers": [
+   {"h": "Facelift or full remodel", "p": "Repainting cabinets and replacing counters and backsplash costs far less than new cabinets and a new layout."},
+   {"h": "Walls coming out", "p": "Opening a kitchen to the dining or living room is common. Non-structural walls are straightforward; structural walls need an engineer, a beam and a permit."},
+   {"h": "Cabinetry", "p": "IKEA and stock cabinets, semi-custom and fully custom millwork sit at very different price points."},
+   {"h": "Electrical and lighting", "p": "Pot lights, pendants, new circuits for appliances and panel upgrades all add up."}
+  ]
+ },
+ {
+  "id": "basement-renovation-cost-toronto",
+  "service": "basements",
+  "published": false,
+  "title": "How Much Does a Basement Renovation Cost in Toronto? | Muddy York Contracting",
+  "description": "What drives the cost of finishing or renovating a basement in Toronto, Etobicoke and Mississauga.",
+  "h1": "Basement renovation cost in Toronto",
+  "todo": "Needs real price ranges from Dylan (finish an unfinished basement, full gut and redo, adding a washroom).",
+  "drivers": [
+   {"h": "Starting point", "p": "An unfinished basement needs framing, insulation, electrical and drywall. A dated finished basement may need demolition first."},
+   {"h": "Adding a washroom", "p": "A bathroom adds plumbing, and the cost depends on how close it is to the existing stack."},
+   {"h": "Sound and comfort", "p": "Resilient channel on the ceiling and Rockwool insulation reduce noise between floors."},
+   {"h": "Built-ins and kitchenettes", "p": "Media walls, built-in shelving and kitchenettes add cabinetry and finish carpentry."}
+  ]
+ }
+]

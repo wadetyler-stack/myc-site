@@ -1,0 +1,31 @@
+{
+ "_note": "Answers use only facts confirmed in site.json, services.json or projects.json. Add pricing, timeline, permit and warranty answers only after talking to Dylan.",
+ "general": [
+  {"q": "Do you offer free consultations?", "a": "Yes. We walk through your space with you, talk about your goals, and explain the options, trade-offs and budget implications, like what it takes to remove a wall or move a bathroom."},
+  {"q": "What's in your quote?", "a": "A detailed breakdown of the services, the knowns, the unknowns and the timeline. We offer tiered pricing options and encourage you to compare and ask questions."},
+  {"q": "What areas do you serve?", "a": "West Toronto, Etobicoke, Mississauga and Oakville. We're based in Etobicoke."},
+  {"q": "Are you a design/build firm?", "a": "No. We're a general contractor, so you're not paying design/build fees. If your project needs an architect, structural engineer or interior designer, we can connect you with one."},
+  {"q": "What happens after the job is done?", "a": "We come back one week after we finish. Make a list of anything that needs attention, like a loose screw or a missed spot, and we'll take care of it."},
+  {"q": "How long have you been in business?", "a": "Muddy York Contracting was founded by Dylan Lauzon and Blake 15 years ago."}
+ ],
+ "basements": [
+  {"q": "Can you add a washroom to a basement?", "a": "Yes. We've added full basement washrooms with tiled walk-in showers, and in one Junction Triangle home we re-accessed the main stack to fit a new powder room under the stairs."},
+  {"q": "Can you reduce noise between the basement and the main floor?", "a": "Yes. We install resilient channel on basement ceilings and use Rockwool insulation to cut down on sound travelling between floors."}
+ ],
+ "kitchens": [
+  {"q": "Can you open my kitchen up to the rest of the main floor?", "a": "It's one of our most common jobs. We've taken out dividing walls in bungalows and semis, added pot lights and run new flooring through the open space. For structural walls we work with a structural engineer."},
+  {"q": "Do you do kitchen facelifts, not just full remodels?", "a": "Yes. One recent facelift kept the existing layout: cabinets repainted, new countertops and backsplash, and wire-brushed white oak hardwood throughout."}
+ ],
+ "bathrooms": [
+  {"q": "We only have one bathroom. How long will we be without it?", "a": "It depends on the scope, and we'll give you a timeline in the quote. For one full gut and rebuild, the homeowner was told 2–4 weeks and the project finished on time and on budget."},
+  {"q": "Do you work on older bathrooms?", "a": "Yes. We've rebuilt a 100-year-old bathroom around a cast-iron clawfoot tub and handled the trim details, like coped baseboards and window stools and aprons, that make an older room look right."}
+ ],
+ "decks-exterior": [
+  {"q": "Can you add privacy to a deck or yard?", "a": "Yes. We've built horizontal-board privacy walls on decks and extended pressure-treated fences to block a neighbour's view."},
+  {"q": "Can you redo an existing deck instead of replacing it?", "a": "Often, yes. We've reskinned existing decks with new boards and extended their length and width at the same time."}
+ ],
+ "whole-home": [
+  {"q": "Can you remove load-bearing walls?", "a": "Yes. We've removed structural walls to create open-concept main floors. We'll connect you with a structural engineer for the design."},
+  {"q": "What does a full home renovation include?", "a": "On one recent full house: a new kitchen, three updated washrooms, new trim and floors throughout, and new electrical."}
+ ]
+}

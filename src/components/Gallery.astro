@@ -1,0 +1,22 @@
+---
+/** Photo grid; clicking opens the shared lightbox (see Lightbox.astro). */
+import { srcset, smW } from '../lib/data.js';
+interface Img { lg: string; sm: string; w: number; h: number; alt: string }
+interface Props { images: Img[]; group: string }
+const { images, group } = Astro.props;
+---
+<ul class="gallery">
+  {images.map((img) => (
+    <li>
+      <a href={img.lg} data-lightbox={group} data-alt={img.alt}>
+        <img src={img.sm} srcset={srcset(img)} sizes="(min-width: 900px) 33vw, 50vw" width={smW(img)} height={Math.round((img.h * smW(img)) / img.w)} alt={img.alt} loading="lazy" decoding="async" />
+      </a>
+    </li>
+  ))}
+</ul>
+<style>
+  .gallery { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(min(46%, 260px), 1fr)); }
+  .gallery a { display: block; aspect-ratio: 4 / 5; overflow: hidden; background: var(--grey-100); border-radius: var(--radius); }
+  .gallery img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s; }
+  .gallery a:hover img { transform: scale(1.04); }
+</style>

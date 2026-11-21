@@ -1,0 +1,52 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import { serviceLabel } from '../lib/data.js';
+interface Props { list: any[]; filters?: boolean; id?: string }
+const { list, filters = false, id = 'grid' } = Astro.props;
+const svc = ['basements', 'kitchens', 'bathrooms', 'decks-exterior', 'whole-home', 'commercial'].filter((s) => list.some((p) => p.services.includes(s)));
+---
+<div class="pgrid" id={id} data-pgrid>
+  {filters && (
+    <div class="pgrid__filters">
+      <div class="chips" role="group" aria-label="Filter projects by service">
+        <button class="chip" aria-pressed="true" data-f="all">All</button>
+        {svc.map((s) => <button class="chip" aria-pressed="false" data-f={s}>{serviceLabel(s)}</button>)}
+      </div>
+      <label class="pgrid__ba"><input type="checkbox" data-ba-only /> Before &amp; after only</label>
+      <p class="pgrid__count" aria-live="polite"><span data-count>{list.length}</span> projects</p>
+    </div>
+  )}
+  <div class="grid grid--3">
+    {list.map((p) => <ProjectCard p={p} />)}
+  </div>
+</div>
+<style>
+  .pgrid__filters { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; margin-bottom: 28px; }
+  .pgrid__ba { display: inline-flex; gap: 8px; align-items: center; font-weight: 600; cursor: pointer; }
+  .pgrid__ba input { width: 18px; height: 18px; accent-color: var(--red); }
+  .pgrid__count { margin: 0 0 0 auto; color: var(--grey-600); font-size: 0.95rem; }
+</style>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-pgrid]').forEach((root) => {
+    const chips = root.querySelectorAll<HTMLButtonElement>('.chip');
+    const baOnly = root.querySelector<HTMLInputElement>('[data-ba-only]');
+    const count = root.querySelector('[data-count]');
+    if (!chips.length) return;
+    let f = 'all';
+    const apply = () => {
+      let n = 0;
+      root.querySelectorAll<HTMLElement>('.pcard').forEach((c) => {
+        const ok = (f === 'all' || c.dataset.services!.split(' ').includes(f)) && (!baOnly?.checked || c.dataset.hasba === '1');
+        c.hidden = !ok;
+        if (ok) n++;
+      });
+      if (count) count.textContent = String(n);
+    };
+    chips.forEach((b) => b.addEventListener('click', () => {
+      f = b.dataset.f!;
+      chips.forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
+      apply();
+    }));
+    baOnly?.addEventListener('change', apply);
+  });
+</script>

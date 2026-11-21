@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectMap from '../../components/ProjectMap.astro';
+import ProjectGrid from '../../components/ProjectGrid.astro';
+import CTA from '../../components/CTA.astro';
+import { projects, byDateDesc, SITE_URL } from '../../lib/data.js';
+const list = projects.filter((p) => p.id !== '2022-year-recap-reel-2023').sort(byDateDesc);
+---
+<Base
+  title="Renovation Projects Map: Etobicoke & West Toronto | Muddy York Contracting"
+  description="Explore real Muddy York renovation projects by neighbourhood. Click a pin to see before, during and after photos of basements, kitchens, bathrooms, decks and main floors."
+  schema={[{ '@type': 'CollectionPage', name: 'Renovation projects', url: `${SITE_URL}/projects/` }]}
+>
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li>Projects</li></ol></nav>
+      <h1>Our work, neighbourhood by neighbourhood</h1>
+      <p class="lede">Click a pin to see the projects in that area, then flip through the before, during and after photos. Pins mark the general neighbourhood, never a home’s address.</p>
+    </div>
+  </section>
+  <section class="section" style="padding-top:36px">
+    <div class="wrap">
+      <ProjectMap id="projects-map" height="680px" />
+    </div>
+  </section>
+  <section class="section section--grey">
+    <div class="wrap">
+      <span class="eyebrow">Every project</span>
+      <h2>All projects</h2>
+      <ProjectGrid list={list} filters id="all-projects" />
+    </div>
+  </section>
+  <CTA />
+</Base>

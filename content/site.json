@@ -1,0 +1,155 @@
+{
+ "_status_key": "confirmed = confirmed by Tyler or the client; to_confirm = found in public sources, check with Dylan before publishing",
+ "business": {
+  "name": "Muddy York Contracting",
+  "legal_name": "Muddy York Contracting Limited",
+  "tagline": "From Concept To Creation",
+  "owner": {
+   "name": "Dylan Lauzon",
+   "title": "Co-founder",
+   "status": "confirmed by Tyler (Nov 21, 2026)"
+  },
+  "phone": {
+   "display": "416-576-8319",
+   "e164": "+14165768319",
+   "status": "confirmed"
+  },
+  "email": {
+   "value": "dylan@muddyyorkcontracting.com",
+   "status": "confirmed",
+   "hosting": "GoDaddy (keep MX records when moving DNS)"
+  },
+  "base": {
+   "locality": "Etobicoke",
+   "region": "ON",
+   "postal_prefix": "M9C",
+   "country": "CA",
+   "status": "confirmed via Google/Facebook; no street address published (service-area business)"
+  },
+  "hours": [
+   {
+    "days": "Mo-Fr",
+    "opens": "08:00",
+    "closes": "17:00"
+   }
+  ],
+  "hours_status": "from Google Business Profile",
+  "website": "https://muddyyorkcontracting.com",
+  "socials": {
+   "instagram": "https://www.instagram.com/muddyyorkcontracting/",
+   "facebook": "https://www.facebook.com/muddyyorkcontracting/"
+  },
+  "years_in_business": {
+   "value": 15,
+   "display": "15 years",
+   "status": "confirmed by Tyler (Nov 21, 2026)"
+  },
+  "founders": [
+   {
+    "name": "Dylan Lauzon",
+    "title": "Co-founder"
+   },
+   {
+    "name": "Blake",
+    "title": "Co-founder",
+    "note": "surname TODO"
+   }
+  ],
+  "founders_status": "confirmed by Tyler (Nov 21, 2026): Dylan and Blake are co-founders"
+ },
+ "service_area": {
+  "core": [
+   "West Toronto",
+   "Etobicoke",
+   "Mississauga",
+   "Oakville"
+  ],
+  "evidence_from_projects": [
+   "Junction Triangle",
+   "High Park",
+   "Bloor West Village",
+   "Runnymede",
+   "Roncesvalles",
+   "Alderwood",
+   "Brampton",
+   "Mississauga",
+   "Georgetown"
+  ],
+  "status": "confirmed by Tyler (Nov 21, 2026). Brampton and Georgetown are past work only, not marketed areas."
+ },
+ "positioning": {
+  "old_site_line": "Clean, honest & reliable general contractors in Etobicoke",
+  "differentiators": [
+   "Clean job sites, tidied every day",
+   "Clear, detailed quotes (knowns, unknowns, timeline)",
+   "Tiered pricing options",
+   "Free consultations",
+   "One-week follow-up and satisfaction guarantee"
+  ],
+  "not_design_build": "Not a design/build firm; can connect clients with architects, structural engineers and interior designers.",
+  "status": "from old website (Dec 2024 capture); get proof points before reusing"
+ },
+ "process": [
+  {
+   "step": "Free consultation",
+   "detail": "Walk the space, discuss options, trade-offs and budget."
+  },
+  {
+   "step": "Detailed quote",
+   "detail": "Outlines the knowns, the unknowns, the timeline and the services."
+  },
+  {
+   "step": "Clean, organized build",
+   "detail": "Site tidied and tools put away at the end of every workday."
+  },
+  {
+   "step": "Follow-up visit",
+   "detail": "One week after completion to fix anything that needs attention."
+  }
+ ],
+ "testimonials": [
+  {
+   "name": "Nancy McInnis",
+   "area": "Toronto",
+   "service": "bathrooms",
+   "status": "confirmed (approved by Tyler Nov 21, 2026; wording from old site, Dec 2024)",
+   "quote": [
+    "Muddy York did a complete gut and build of my bathroom. I was advised it could take 2-4 weeks.",
+    "We have only one bathroom, and I was nervous about how long the project would take. I must have asked a hundred questions (I'm not exaggerating!), and they answered every one patiently and in layperson's terms I could understand.",
+    "I've been so happy about our bathroom that I've told everyone about it and showed them photos. I can tell from the look on their faces that they are waiting for me to rant about something that went wrong, but all I have are raves. Our project was in budget and on time. I know we'll do more work on our house, and Muddy York is the company I'll be calling!"
+   ],
+   "pull": "Our project was in budget and on time."
+  },
+  {
+   "name": "Erin",
+   "area": "Toronto",
+   "service": "whole-home",
+   "status": "confirmed (approved by Tyler Nov 21, 2026; wording from old site, Dec 2024)",
+   "quote": [
+    "Dylan, Blake and Kyle were a fantastic team. Their painter, Rodney, and his crew were also great. I had Muddy York in my house, installing upstairs laundry, putting in walls and a mini kitchen, and working on my basement Airbnb.",
+    "They were very efficient and thoughtful, offering suggestions on cost savings and the best utility for my ideas. I was so happy with their work that I asked them to do smaller tasks around the house, which they completed beautifully. I'll request them if I need more work and recommend them to all my friends."
+   ],
+   "pull": "Very efficient and thoughtful, offering suggestions on cost savings."
+  },
+  {
+   "name": "Pro Teach Baseball",
+   "area": "Commercial client",
+   "service": "commercial",
+   "status": "confirmed (approved by Tyler Nov 21, 2026; Instagram comment 2018)",
+   "quote": [
+    "Great work as always! Thanks Dylan."
+   ],
+   "pull": "Great work as always!"
+  }
+ ],
+ "reviews": {
+  "google": "none yet",
+  "facebook": "1 recommendation (2017, no text)",
+  "action": "Ask past clients for Google reviews before launch"
+ },
+ "brand_assets": {
+  "logo": "/brand/logo-placeholder.png",
+  "logo_status": "low-res greyscale placeholder; request vector SVG + colour version"
+ },
+ "testimonials_note": "The 2017 High Park Instagram quote matches Nancy McInnis's testimonial, so it is not listed separately."
+}

@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro';
+import { biz, site, mainServices, telHref, mailHref, SITE_URL } from '../lib/data.js';
+---
+<Base
+  title="Book a Free Consultation | Muddy York Contracting, Etobicoke"
+  description={`Tell us about your renovation. Call ${biz.phone.display} or send the form and we'll set up a free consultation in Etobicoke, West Toronto, Mississauga or Oakville.`}
+  schema={[{ '@type': 'ContactPage', name: 'Contact Muddy York Contracting', url: `${SITE_URL}/contact/` }]}
+>
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li>Contact</li></ol></nav>
+      <h1>Book a free consultation</h1>
+      <p class="lede">Tell us about your project. We’ll get back to you to set up a walk-through, then follow up with a detailed quote.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:40px">
+    <div class="wrap contact">
+      <form class="form" name="consultation" method="POST" action="/thanks/" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
+        <input type="hidden" name="form-name" value="consultation" />
+        <p class="visually-hidden"><label>Don’t fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+        <div class="row">
+          <label><span>Name <span class="req">*</span></span><input name="name" required autocomplete="name" /></label>
+          <label>Phone<input name="phone" type="tel" autocomplete="tel" /></label>
+        </div>
+        <div class="row">
+          <label><span>Email <span class="req">*</span></span><input name="email" type="email" required autocomplete="email" /></label>
+          <label>Neighbourhood or city<input name="neighbourhood" placeholder="e.g. Alderwood, Mississauga" /></label>
+        </div>
+        <label>Project type
+          <select name="project_type">
+            <option value="">Choose one</option>
+            {mainServices.map((s) => <option>{s.name}</option>)}
+            <option>Load-Bearing Wall Removal</option>
+            <option>Commercial</option>
+            <option>Something else</option>
+          </select>
+        </label>
+        <label><span>Tell us about the project <span class="req">*</span></span>
+          <textarea name="message" rows="6" required placeholder="What would you like done, and roughly when?"></textarea>
+        </label>
+        <label>Photos of the space (optional)
+          <input name="photo" type="file" accept="image/*" />
+          <small>One photo up to 8 MB.</small>
+        </label>
+        <button class="btn btn--red" type="submit">Send my request</button>
+        <p class="form__note">We only use your details to reply about your project.</p>
+      </form>
+
+      <aside class="cbox">
+        <h2>Prefer to talk?</h2>
+        <p class="big"><a href={telHref}>{biz.phone.display}</a></p>
+        <p><a href={mailHref}>{biz.email.value}</a></p>
+        <h3>Hours</h3>
+        <p>Monday to Friday, 8am–5pm</p>
+        <h3>Where we work</h3>
+        <ul class="checks">{site.service_area.core.map((a) => <li>{a}</li>)}</ul>
+        <p class="muted">Based in Etobicoke. Not sure if you’re in our area? Ask us.</p>
+      </aside>
+    </div>
+  </section>
+</Base>
+<style>
+  .contact { display: grid; gap: 40px; }
+  @media (min-width: 960px) { .contact { grid-template-columns: 1.6fr 1fr; } }
+  .form { display: grid; gap: 18px; }
+  .row { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+  .form label { display: grid; gap: 6px; font-weight: 600; }
+  .form input:not([type='file']), .form select, .form textarea {
+    font: inherit; font-weight: 400; padding: 12px 14px; border: 1.5px solid var(--grey-200); border-radius: var(--radius); background: #fff; color: var(--ink); width: 100%;
+  }
+  .form input:focus, .form select:focus, .form textarea:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px rgb(214 0 28 / 0.18); }
+  .form small, .form__note { color: var(--grey-600); font-weight: 400; font-size: 0.88rem; }
+  .req { color: var(--red); }
+  .form .btn { justify-self: start; }
+  .cbox { background: var(--ink); color: var(--grey-200); padding: 32px; border-top: 4px solid var(--red); align-self: start; }
+  .cbox h2, .cbox h3 { color: #fff; }
+  .cbox h3 { font-size: 1.2rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 24px; }
+  .cbox a { color: #fff; font-weight: 600; word-break: break-word; }
+  .cbox .big { font: 700 2.2rem/1 var(--font-head); }
+  .cbox .muted { color: var(--grey-400); font-size: 0.92rem; }
+</style>

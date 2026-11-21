@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import { biz, telHref } from '../lib/data.js';
+---
+<Base title="Thanks, we got your request | Muddy York Contracting" description="Your consultation request has been sent." noindex>
+  <section class="section">
+    <div class="wrap measure">
+      <span class="eyebrow">Request sent</span>
+      <h1>Thanks, we got it</h1>
+      <p class="lede">We’ll be in touch to set up your free consultation. If it’s urgent, call us at <a href={telHref}>{biz.phone.display}</a>.</p>
+      <div class="btn-row"><a class="btn btn--dark" href="/projects/">Browse our projects</a><a class="btn btn--ghost" href="/">Back to home</a></div>
+    </div>
+  </section>
+</Base>

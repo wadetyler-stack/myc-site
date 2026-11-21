@@ -1,0 +1,56 @@
+[
+ {
+  "id": "etobicoke",
+  "slug": "/areas/etobicoke/",
+  "name": "Etobicoke",
+  "priority": "P1",
+  "title": "Home Renovations in Etobicoke | Muddy York Contracting",
+  "description": "Etobicoke-based renovation contractor for basements, kitchens, bathrooms, decks and full main floors. See real local projects and book a free consultation.",
+  "h1": "Home renovations in Etobicoke",
+  "lede": "Etobicoke is home base. We're a small general contracting crew working on basements, kitchens, bathrooms, decks and full main floors across the neighbourhoods we live and work in.",
+  "body": [
+   "A lot of Etobicoke houses are post-war bungalows and back-splits with closed-off kitchens and unfinished or dated basements. Opening up the main floor and finishing the basement are the jobs we're asked about most, and they're the jobs we've done most.",
+   "Every project starts the same way: a free walk-through where we talk through options, trade-offs and budget, then a detailed quote that lays out the knowns, the unknowns and the timeline."
+  ],
+  "neighbourhood_names": ["Alderwood", "Long Branch", "New Toronto", "Mimico", "The Kingsway", "Islington", "Markland Wood", "Eatonville", "Humber Valley"],
+  "pins": ["etobicoke", "alderwood"],
+  "map_center": [43.625, -79.53],
+  "map_zoom": 12
+ },
+ {
+  "id": "west-end-toronto",
+  "slug": "/areas/west-end-toronto/",
+  "name": "West End Toronto",
+  "priority": "P2",
+  "title": "General Contractor in West End Toronto | Muddy York Contracting",
+  "description": "Renovations in Junction Triangle, High Park, Bloor West Village, Runnymede and Roncesvalles. Real before-and-after projects from a west-end general contractor.",
+  "h1": "General contractor for Toronto's west end",
+  "lede": "Some of our longest-running work is in the west end: century homes in Junction Triangle, High Park and Bloor West Village where nothing is square and every wall has a story.",
+  "body": [
+   "Older Toronto houses mean old plumbing stacks, plaster walls and tight footprints. We've re-accessed main stacks to fit powder rooms under stairs, rebuilt 100-year-old bathrooms around cast-iron tubs and opened up narrow main floors.",
+   "We quote the knowns and the unknowns up front, so the surprises in an old house don't turn into surprises on your bill."
+  ],
+  "neighbourhood_names": ["Junction Triangle", "The Junction", "High Park", "High Park North", "Bloor West Village", "Runnymede", "Roncesvalles", "Swansea", "Dovercourt", "St. Clair West"],
+  "pins": ["junction-triangle", "high-park", "high-park-north", "bloor-west-village", "runnymede", "st-clair-west", "dovercourt-geary"],
+  "map_center": [43.664, -79.46],
+  "map_zoom": 13
+ },
+ {
+  "id": "mississauga",
+  "slug": "/areas/mississauga/",
+  "name": "Mississauga",
+  "priority": "P2",
+  "title": "Bathroom, Kitchen & Basement Renovations in Mississauga | Muddy York Contracting",
+  "description": "Renovation contractor serving Mississauga from next door in Etobicoke: bathrooms, kitchens, basements and main floors with clear quotes and clean job sites.",
+  "h1": "Renovations in Mississauga",
+  "lede": "We're based just over the border in Etobicoke, so Mississauga is a short drive for us. Bathrooms, kitchens, basements and main-floor renovations, done by the same crew from start to finish.",
+  "body": [
+   "Whether it's a dated washroom, a closed-in kitchen or a basement that's never been finished, the process is the same: a free consultation, a detailed quote with the knowns and unknowns spelled out, a clean site every day and a follow-up visit a week after we finish."
+  ],
+  "neighbourhood_names": ["Port Credit", "Lorne Park", "Clarkson", "Mineola", "Cooksville", "Applewood", "Erin Mills"],
+  "pins": ["mississauga"],
+  "map_center": [43.6, -79.62],
+  "map_zoom": 11,
+  "note": "TODO: only one Mississauga-tagged job so far. Add more as Dylan confirms locations."
+ }
+]

@@ -1,0 +1,82 @@
+[
+ {
+  "id": "basements",
+  "name": "Basement Renovations",
+  "slug": "/basement-renovations/",
+  "summary": "Unfinished or dated basements turned into livable space: framing, electrical, insulation, drywall, flooring, trim, washrooms, kitchenettes and built-ins.",
+  "hero_images": [
+   {"lg": "/images/projects/basement-full-gut-2022/04-after-lg.webp", "alt": "Finished basement with a brick fireplace flanked by white built-in shelving", "project": "basement-full-gut-2022"},
+   {"lg": "/images/projects/basement-entertainment-area-2025/10-after-lg.webp", "alt": "Finished basement media wall with blue built-in cabinets around the TV", "project": "basement-entertainment-area-2025"},
+   {"lg": "/images/projects/basement-fireplace-2022/03-after-lg.webp", "alt": "Finished basement rec room with grey vinyl plank floors and pot lights", "project": "basement-fireplace-2022"}
+  ],
+  "featured_before_after": "brampton-basement-2018",
+  "proof_points_from_captions": ["Resilient channel on ceilings to reduce sound transmission", "Rockwool insulation", "Re-accessing the main stack to add a powder room under the stairs", "Laundry converted to a bedroom", "Basement kitchenettes (IKEA cabinets)"],
+  "gaps": []
+ },
+ {
+  "id": "kitchens",
+  "name": "Kitchen Renovations",
+  "slug": "/kitchen-renovations/",
+  "summary": "Full kitchen remodels and facelifts, often paired with opening up the main floor: walls out, islands, custom cabinetry, waterfall counters, pot lights and new floors.",
+  "hero_images": [
+   {"lg": "/images/projects/bungalow-kitchen-2022/03-after-lg.webp", "alt": "Finished open-concept kitchen with a waterfall island, black pendants and white cabinets", "project": "bungalow-kitchen-2022"},
+   {"lg": "/images/projects/main-floor-gut-custom-kitchen-2021/05-after-lg.webp", "alt": "Finished kitchen with a navy island, white quartz counters and a stainless range hood", "project": "main-floor-gut-custom-kitchen-2021"},
+   {"lg": "/images/projects/georgetown-kitchen-washroom-2021/03-after-lg.webp", "alt": "Finished kitchen in Georgetown with a navy island, pendant lights and white cabinets", "project": "georgetown-kitchen-washroom-2021"},
+   {"lg": "/images/projects/open-concept-kitchen-2019/03-after-lg.webp", "alt": "Finished open-concept kitchen with a white quartz island, black pendant lights and wood floors", "project": "open-concept-kitchen-2019"}
+  ],
+  "featured_before_after": "main-floor-full-gut-custom-kitchen-2024",
+  "proof_points_from_captions": ["Bungalow kitchen opened up: dividing walls out, pot lights, trim, vinyl floors", "Kitchen facelift: cabinets repainted, new counters, backsplash, wire-brushed white oak", "Small-space kitchen with Blum corner drawer and stainless counter with integrated sink"],
+  "gaps": []
+ },
+ {
+  "id": "bathrooms",
+  "name": "Bathroom Renovations",
+  "slug": "/bathroom-renovations/",
+  "summary": "Washroom guts and updates: tile, glass showers, niches, freestanding and cast-iron tubs, vanities, and the trim details around them.",
+  "hero_images": [
+   {"lg": "/images/projects/main-floor-master-washroom-2023/10-after-lg.webp", "alt": "Finished primary bathroom with a freestanding tub and a glass walk-in shower", "project": "main-floor-master-washroom-2023"},
+   {"lg": "/images/projects/washroom-roundup-2023/06-after-lg.webp", "alt": "Finished bathroom with a green glazed-tile walk-in shower and a sliding glass door", "project": "washroom-roundup-2023"},
+   {"lg": "/images/projects/bathroom-plumber-bros-2020/02-after-lg.webp", "alt": "Finished bathroom with marble-look tile, a soaker tub and a pedestal sink", "project": "bathroom-plumber-bros-2020"},
+   {"lg": "/images/projects/basement-entertainment-area-2025/09-after-lg.webp", "alt": "Finished basement bathroom with a green tile walk-in shower and rain head", "project": "basement-entertainment-area-2025"}
+  ],
+  "featured_before_after": "older-washroom-2021",
+  "proof_points_from_captions": ["100-year-old bathroom with a cast-iron clawfoot tub hauled upstairs", "\"From rusty mold to white gold\" before/after", "Coped baseboard and window stool/apron detail"],
+  "gaps": ["Show more bathrooms tagged to the map: most recent bathroom jobs have no neighbourhood"]
+ },
+ {
+  "id": "decks-exterior",
+  "name": "Decks, Fences & Exteriors",
+  "slug": "/decks-fences-exteriors/",
+  "summary": "Decks with privacy walls and planters, deck reskins and extensions, wood and steel fences, porches and exterior facelifts.",
+  "hero_images": [
+   {"lg": "/images/projects/deck-privacy-wall-2020/04-after-lg.webp", "alt": "New cedar deck with a horizontal-board privacy wall against a brick house", "project": "deck-privacy-wall-2020"},
+   {"lg": "/images/projects/exterior-facelift-yellow-door-2020/01-after-lg.webp", "alt": "Side-by-side exterior facelift of a Toronto semi with a new yellow front door", "project": "exterior-facelift-yellow-door-2020"}
+  ],
+  "featured_before_after": "deck-reskin-extension-2021",
+  "proof_points_from_captions": ["Privacy walls to block a neighbour's view", "Deck reskin plus extended length and width", "Pressure-treated fences and gates"],
+  "gaps": ["Only 22 photos, all 2016–2021; several are 480–1000 px. Ask for recent deck/fence photos", "Windows & doors (old site service) has no dedicated project photos"]
+ },
+ {
+  "id": "whole-home",
+  "name": "Whole Home & Main Floor Renovations",
+  "slug": "/whole-home-renovations/",
+  "summary": "Full guts and open-concept main floors: structural walls out, new framing and electrical, spray foam, hardwood, custom millwork, stairs, built-ins and mudrooms.",
+  "hero_images": [
+   {"lg": "/images/projects/main-floor-white-oak-2025/13-after-lg.webp", "alt": "Finished main floor with white oak floors and a wood-clad fireplace feature wall", "project": "main-floor-white-oak-2025"},
+   {"lg": "/images/projects/mudroom-garage-2021/05-after-lg.webp", "alt": "Custom mudroom with sage-green built-in lockers, hooks and a bench", "project": "mudroom-garage-2021"}
+  ],
+  "featured_before_after": "full-house-2021",
+  "proof_points_from_captions": ["Complete home: new kitchen, 3 washrooms, trim and floors throughout, new electrical", "Structural walls removed for an open-concept main floor (Brampton)", "Third-storey addition framing in Bloor West Village"],
+  "gaps": []
+ },
+ {
+  "id": "commercial",
+  "name": "Commercial Build-Outs",
+  "slug": "/commercial/",
+  "summary": "Small commercial work: a barbershop build-out, a baseball training facility (turf and pitching mounds), and a photo studio with a drywall cove.",
+  "hero_images": [],
+  "featured_before_after": "pretty-rugged-2017",
+  "proof_points_from_captions": ["Pro Teach Baseball is a repeat client who still comments in 2025"],
+  "gaps": ["Decide with Dylan whether commercial is a service to sell or just proof on the About page"]
+ }
+]

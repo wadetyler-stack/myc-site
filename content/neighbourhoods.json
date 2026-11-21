@@ -1,0 +1,153 @@
+[
+ {
+  "id": "junction-triangle",
+  "name": "Junction Triangle",
+  "area": "Toronto",
+  "lat": 43.661,
+  "lng": -79.445,
+  "coords": "approximate neighbourhood centre — verify",
+  "projects": [
+   "junction-basement-framed-2020",
+   "junction-open-kitchen-2020",
+   "junction-living-room-2020",
+   "junction-triangle-demo-2018",
+   "century-bathroom-2018",
+   "powder-room-under-stairs-2018",
+   "junction-triangle-floors-stairs-2017",
+   "eclectic-small-kitchen-2017"
+  ]
+ },
+ {
+  "id": "high-park",
+  "name": "High Park",
+  "area": "Toronto",
+  "lat": 43.6465,
+  "lng": -79.4637,
+  "coords": "approximate neighbourhood centre — verify",
+  "projects": [
+   "bathroom-trim-detail-2020",
+   "bathroom-testimonial-2017"
+  ]
+ },
+ {
+  "id": "high-park-north",
+  "name": "High Park North",
+  "area": "Toronto",
+  "lat": 43.659,
+  "lng": -79.466,
+  "coords": "approximate neighbourhood centre — verify",
+  "projects": [
+   "front-porch-2017"
+  ]
+ },
+ {
+  "id": "bloor-west-village",
+  "name": "Bloor West Village",
+  "area": "Toronto",
+  "lat": 43.65,
+  "lng": -79.485,
+  "coords": "approximate neighbourhood centre — verify",
+  "projects": [
+   "third-storey-addition-2019",
+   "bloor-west-village-bathroom-2017"
+  ]
+ },
+ {
+  "id": "runnymede",
+  "name": "Runnymede",
+  "area": "Toronto",
+  "lat": 43.656,
+  "lng": -79.483,
+  "coords": "approximate neighbourhood centre — verify",
+  "projects": [
+   "runnymede-flat-stock-trim-2020"
+  ]
+ },
+ {
+  "id": "st-clair-west",
+  "name": "St. Clair West",
+  "area": "Toronto",
+  "lat": 43.683,
+  "lng": -79.427,
+  "coords": "approximate neighbourhood centre — verify",
+  "projects": [
+   "pretty-rugged-2017"
+  ]
+ },
+ {
+  "id": "dovercourt-geary",
+  "name": "Dovercourt / Geary",
+  "area": "Toronto",
+  "lat": 43.672,
+  "lng": -79.438,
+  "coords": "approximate neighbourhood centre — verify",
+  "projects": [
+   "studio-cove-2017"
+  ]
+ },
+ {
+  "id": "alderwood",
+  "name": "Alderwood",
+  "area": "Etobicoke",
+  "lat": 43.602,
+  "lng": -79.544,
+  "coords": "approximate neighbourhood centre — verify",
+  "projects": [
+   "walnut-flooring-2019",
+   "south-etobicoke-wall-down-2019"
+  ]
+ },
+ {
+  "id": "etobicoke",
+  "name": "Etobicoke",
+  "area": "Toronto",
+  "lat": 43.6205,
+  "lng": -79.5132,
+  "coords": "approximate neighbourhood centre — verify",
+  "projects": [
+   "main-floor-before-after-2020",
+   "fence-extension-2020",
+   "first-floor-reno-2020",
+   "shower-niche-2017",
+   "finishes-window-bench-2017",
+   "windows-casing-2017"
+  ]
+ },
+ {
+  "id": "brampton",
+  "name": "Brampton",
+  "area": "Peel",
+  "lat": 43.7315,
+  "lng": -79.7624,
+  "coords": "approximate neighbourhood centre — verify",
+  "projects": [
+   "brampton-main-floor-2019",
+   "brampton-fence-2019",
+   "brampton-basement-2018",
+   "basement-custom-shower-2018",
+   "brampton-main-floor-2017"
+  ]
+ },
+ {
+  "id": "mississauga",
+  "name": "Mississauga",
+  "area": "Peel",
+  "lat": 43.589,
+  "lng": -79.6441,
+  "coords": "approximate neighbourhood centre — verify",
+  "projects": [
+   "tile-mantel-bodyjets-2017"
+  ]
+ },
+ {
+  "id": "georgetown",
+  "name": "Georgetown",
+  "area": "Halton Hills",
+  "lat": 43.651,
+  "lng": -79.93,
+  "coords": "approximate neighbourhood centre — verify",
+  "projects": [
+   "georgetown-kitchen-washroom-2021"
+  ]
+ }
+]

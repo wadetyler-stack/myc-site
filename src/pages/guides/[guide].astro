@@ -1,0 +1,37 @@
+---
+/** Cost guides: built as noindex drafts until Dylan supplies real price ranges (set published: true in content/guides.json). */
+import Base from '../../layouts/Base.astro';
+import ProjectGrid from '../../components/ProjectGrid.astro';
+import CTA from '../../components/CTA.astro';
+import { guides, projects, serviceById, byDateDesc } from '../../lib/data.js';
+export function getStaticPaths() {
+  return guides.map((g) => ({ params: { guide: g.id }, props: { g } }));
+}
+const { g } = Astro.props;
+const svc = serviceById[g.service];
+const examples = projects.filter((p) => p.services.includes(g.service) && p.has_before_after).sort(byDateDesc).slice(0, 3);
+---
+<Base title={g.title} description={g.description} noindex={!g.published} draft={g.published ? undefined : g.todo}>
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href={svc.slug}>{svc.name}</a></li><li>Cost guide</li></ol></nav>
+      <h1>{g.h1}</h1>
+      <p class="lede">Every project is different, so the honest answer is “it depends.” Here’s what it depends on, and how to read a quote.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap prose">
+      <h2>Typical price ranges</h2>
+      <div class="todo-box">TODO: price ranges from Dylan go here.</div>
+      <h2>What drives the cost</h2>
+      {g.drivers.map((d) => <><h3>{d.h}</h3><p>{d.p}</p></>)}
+      <h2>How to read a renovation quote</h2>
+      <p>A good quote lists the knowns, the unknowns and the timeline, and breaks the work down by service. Ours also include tiered options so you can see where the money goes. Compare quotes line by line, and ask what’s been left out.</p>
+    </div>
+  </section>
+  {examples.length > 0 && <section class="section section--grey"><div class="wrap"><h2>Recent {svc.name.toLowerCase()}</h2><ProjectGrid list={examples} /></div></section>}
+  <CTA title="Get a real number for your project" />
+</Base>
+<style>
+  .todo-box { border: 2px dashed #e0b400; background: #fffbe6; padding: 18px; font-weight: 600; }
+</style>

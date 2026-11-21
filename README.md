@@ -33,6 +33,6 @@ npm run build    # outputs dist/
 - [ ] Neighbourhoods for the 2021–2025 jobs, so they show on the map
 - [ ] Price ranges for the three cost guides (`/guides/...`, currently noindex drafts)
 - [ ] Confirm who pulls permits and supplies engineering for wall removal (`/load-bearing-wall-removal/`)
-- [ ] Netlify form notifications → dylan@muddyyorkcontracting.com
-- [ ] Point the GoDaddy domain at Netlify **without touching the MX/email records** (email is hosted at GoDaddy)
+- [x] Netlify form notifications → dylan@muddyyorkcontracting.com (Dylan must click Netlify's confirmation email)
+- [ ] Point the GoDaddy domain at Netlify without touching email records: see LAUNCH.md
 - [ ] Ask 3–5 past clients for Google reviews
